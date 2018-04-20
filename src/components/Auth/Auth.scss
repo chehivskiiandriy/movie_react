@@ -1,0 +1,38 @@
+.ModalWindow-enter {
+  opacity: 0;
+}
+
+.ModalWindow-enter .Modal {
+  transition: .4s;
+  transform: scale(0);
+}
+
+.ModalWindow-enter.ModalWindow-enter-active {
+  opacity: 1;
+  transition: opacity .4s;
+}
+
+.ModalWindow-enter.ModalWindow-enter-active .Modal {
+  transform: scale(1);
+
+}
+
+
+.ModalWindow-leave {
+  opacity: 1;
+}
+
+.ModalWindow-leave .Modal {
+  transition: .4s;
+  transform: scale(0);
+}
+
+.ModalWindow-leave.ModalWindow-leave-active {
+  opacity: 0;
+  transition: opacity .25s;
+}
+
+.ModalWindow-leave.ModalWindow-leave-active .Modal {
+  transform: scale(0);
+
+}

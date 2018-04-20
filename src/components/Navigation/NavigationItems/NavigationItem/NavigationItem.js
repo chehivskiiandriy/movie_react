@@ -1,15 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
-const NavigationItem = ({ children, link, name, exact }) => {
+import './NavigationItem.scss';
+
+const NavigationItem = ({ children, link, name, exact, color }) => {
     console.log('-----', children);
+    let classes = '';
+    if(!children) classes = 'WithoutChildren';
+    if(color) classes += ' ' + color;
+
     return (
-        <li>
+        <li className={`NavigationItem ${classes}`}>
             <NavLink
                 to={link}
                 exact={exact}
-                activeClassName="active">{name}</NavLink>
+                activeClassName="active">
+                <FormattedMessage id={`nav.${name}`} defaultMessage={name}/>
+            </NavLink>
             {children}
         </li>
     )

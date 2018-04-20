@@ -3,18 +3,27 @@ import { Field, reduxForm } from 'redux-form';
 import isEmail from 'validator/lib/isEmail';
 import { connect } from 'react-redux';
 
-import RenderField from '../shared/RenderField';
-import {authErrors} from "../../ducks/auth";
+import RenderField from '../../UI/RenderField/RenderField';
+import {authErrors, authOptions, setAuthOptions} from "../../../ducks/auth";
 import PropTypes from "prop-types";
 
-const ForgotPasswordForm = ({ handleSubmit, pristine, submitting, error }) => (
-    <div>
-        <h2>Forgot Password?</h2>
+import './ForgotPasswordForm.scss';
+
+const ForgotPasswordForm = ({ handleSubmit, pristine, submitting, error, invalid, setAuthOptions }) => (
+    <div className="ForgotPassword">
+        <div className="Title">
+            <a className="GoBack" title="Go back" onClick={() => setAuthOptions(authOptions.openSignIn)}>
+                <span className="icon icon-go-back" />
+            </a>
+            <h2>Forgot Password?</h2>
+        </div>
         {error && error.global}
         <form onSubmit={handleSubmit}>
             <div>
-                <Field name="email" component={RenderField} type="email" label="Email"/>
-                <button type="submit" disabled={pristine || submitting}>Submit</button>
+                <Field name="email" component={RenderField} type="email" label="Email" iconType="close-envelope"/>
+                <button className="SubmitButton" type="submit" disabled={pristine || submitting || invalid}>
+                    Submit
+                </button>
             </div>
         </form>
     </div>
@@ -51,4 +60,4 @@ const mapStateToProps = state => {
 export default reduxForm({
     form: 'forgotPassword',
     validate
-})(connect(mapStateToProps)(ForgotPasswordForm));
+})(connect(mapStateToProps, { setAuthOptions })(ForgotPasswordForm));

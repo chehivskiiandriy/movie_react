@@ -1,0 +1,152 @@
+.RenderField {
+  position: relative;
+  margin: 25px 0;
+
+  &:first-child {
+    margin-top: 15px;
+  }
+
+  .icon:before {
+    color: #ccc;
+    transition: 0.3s;
+  }
+  .icon-user:before {
+    content: 'u';
+  }
+  .icon-lock:before {
+    content: 'l';
+  }
+  .icon-close-envelope:before {
+    content: 'v';
+  }
+
+  .icon-eye-blocked:before {
+    content: 'b';
+    color: #555555;
+  }
+  .icon-eye:before {
+    content: 'y';
+    color: #555555;
+  }
+
+  .RenderInput {
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 0 0 0 30px;
+    height: 35px;
+    transition:0.3s ease all;
+
+    &:focus, &.touched:not(.isEmpty) {
+      padding-left: 0;
+    }
+
+    &:focus ~ label .icon:before, &.touched:not(.invalid) ~ label .icon:before {
+      font-size: 14px;
+      color: #229eff;
+    }
+
+    &:not(.invalid) ~ label .icon:before {
+      color: #00b2a2 !important;
+    }
+
+    &.touched.invalid ~ label .icon:before {
+      color: #ff9580;
+      font-size: 14px;
+    }
+
+    &:focus.invalid ~ label .icon:before {
+      color: #229eff;
+    }
+
+    &.touched.invalid ~ .Bar {
+      background: #ff9580;
+    }
+
+    &.touched:not(.invalid) ~ .Bar {
+      background: #00b2a2;
+    }
+
+    &:focus ~ .Bar:after, &.touched:not(.invalid) ~ .Bar:after {
+      transform: rotateY(0deg);
+    }
+
+    &.touched.invalid ~ .Bar:after {
+      background: #ff9580;
+    }
+
+    &:not(.invalid) ~ .Bar:after {
+      background: #00b2a2;
+    }
+
+    &:focus.invalid ~ .Bar:after {
+      background: #229eff;
+    }
+
+    &:focus::placeholder, &:focus.invalid::placeholder {
+      color: transparent !important;
+    }
+
+    &.touched.invalid::placeholder {
+      color: #ff9580;
+    }
+
+    &:focus ~ label, &.touched:not(.isEmpty) ~ label {
+      top: 0;
+    }
+  }
+
+  .Bar {
+    position: relative;
+    height: 2px;
+    background: #ccc;
+    display: block;
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #229eff;
+      height: 2px;
+      transform: rotateY(90deg);
+      transition: transform 0.3s ease;
+      will-change: transform;
+    }
+  }
+
+  label {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    transition: 0.3s ease all;
+  }
+
+  .Error {
+    position: absolute;
+    top: 0;
+    left: 130%;
+  }
+
+  .Eye {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      .icon:before {
+        color: #000;
+      }
+    }
+  }
+}

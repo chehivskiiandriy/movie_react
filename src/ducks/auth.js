@@ -1,4 +1,3 @@
-import { Record, Map } from 'immutable';
 import { takeEvery, takeLatest, take, call, put, all } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import { push } from 'react-router-redux'
@@ -36,6 +35,9 @@ export const CONFIRM_EMAIL_ERROR = `${moduleName}/CONFIRM_EMAIL_ERROR`;
 
 export const VALIDATE_TOKEN_REQUEST = `${moduleName}/VALIDATE_TOKEN_REQUEST`;
 
+export const SET_AUTH_OPTIONS = `${moduleName}/SET_AUTH_OPTIONS`;
+export const RESET_AUTH_OPTIONS = `${moduleName}/RESET_AUTH_OPTIONS`;
+
 export const LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
 
 export const authErrors = {
@@ -45,16 +47,33 @@ export const authErrors = {
     resetPasswordError: 'resetPasswordError'
 };
 
+export const authOptions = {
+    openSignIn: 'openSignIn',
+    openSignUp: 'openSignUp',
+    openConfirmation: 'openConfirmation',
+    openForgotPassword: 'openForgotPassword',
+    openResetPassword: 'openResetPassword'
+};
+
 /**
  * Reducer
  * */
-export const InitialStateRecord = Record({
+export const InitialAuthOptions = {
+    openSignIn: false,
+    openSignUp: false,
+    openConfirmation: false,
+    openForgotPassword: false,
+    openResetPassword: false
+};
+
+export const InitialStateRecord = {
     user: null,
     error: null,
-    loading: false
-});
+    loading: false,
+    authSettings: InitialAuthOptions
+};
 
-export default function reducer(state = new InitialStateRecord(), action = {}) {
+export default function reducer(state = InitialStateRecord, action = {}) {
     const { type, payload, error } = action;
 
     switch (type) {
@@ -62,34 +81,64 @@ export default function reducer(state = new InitialStateRecord(), action = {}) {
         case SIGN_IN_REQUEST:
         case CONFIRM_EMAIL_REQUEST:
         case RESET_PASSWORD_REQUEST:
-            return state.set('loading', true);
+            return {
+                ...state,
+                loading: true
+            };
 
         case SIGN_UP_SUCCESS:
         case SIGN_IN_SUCCESS:
         case CONFIRM_SUCCESS:
         case SIGNED_IN:
-            return state
-                .set('loading', false)
-                .set('user', payload.user)
-                .set('error', null);
+            return {
+                ...state,
+                loading: false,
+                user: payload.user,
+                error: null
+            };
 
         case CONFIRM_EMAIL_SUCCESS:
         case RESET_PASSWORD_SUCCESS:
-            return state.set('loading', false);
+            return {
+                ...state,
+                loading: false
+            };
 
         case SIGN_UP_ERROR:
         case SIGN_IN_ERROR:
         case CONFIRM_EMAIL_ERROR:
         case RESET_PASSWORD_ERROR:
-            return state
-                .set('loading', false)
-                .set('error', error);
+            return {
+                ...state,
+                loading: false,
+                error: error
+            };
 
         case SIGN_OUT_SUCCESS:
-            return new InitialStateRecord();
+            return InitialStateRecord;
 
         case LOCATION_CHANGE:
-            return state.set('error', null);
+            return {
+                ...state,
+                error: null
+            };
+
+        case SET_AUTH_OPTIONS:
+            return {
+                ...state,
+                authSettings: {
+                    ...InitialAuthOptions,
+                    [payload.data]: true
+                }
+            };
+
+        case RESET_AUTH_OPTIONS:
+            return {
+            ...state,
+            authSettings: {
+                ...InitialAuthOptions,
+            }
+        };
 
         default:
             return state;
@@ -215,6 +264,19 @@ export function validateToken(token, onSuccess, onFail) {
     }
 }
 
+export function setAuthOptions(data) {
+    return {
+        type: SET_AUTH_OPTIONS,
+        payload: { data }
+    }
+}
+
+export function resetAuthOptions() {
+    return {
+        type: RESET_AUTH_OPTIONS,
+    }
+}
+
 /**
  * Functions
  * */
@@ -242,7 +304,9 @@ export const signUpSaga = function * () {
 
             yield put(signUpSuccess(user));
 
-            yield put(push('/'));
+            yield put(resetAuthOptions());
+
+            yield put(push('/test'));
         } catch (error) {
             const err = error.response.data.errors;
             err.type = authErrors.signUpError;
@@ -260,6 +324,8 @@ export const signInSaga = function * (action) {
         yield call(setUserToken, user.token);
 
         yield put(signInSuccess(user));
+
+        yield put(resetAuthOptions());
 
         yield put(push('/test'));
     } catch (error) {
@@ -331,7 +397,7 @@ export const resetPasswordSaga = function * (action) {
 
         yield put({ type: RESET_PASSWORD_SUCCESS});
 
-        yield put(push('/auth'));
+        yield put(setAuthOptions(authOptions.openSignIn));
 
     } catch (error) {
         const err = error.response.data.errors;

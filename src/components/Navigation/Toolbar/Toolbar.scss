@@ -1,0 +1,45 @@
+.Toolbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  //background-color: rgba(0, 0, 0, 0.9);
+  background: linear-gradient(45deg, rgba(14, 70, 120, 0.9), rgba(120, 23, 85, 0.9));
+
+  nav {
+    height: 100%;
+  }
+}
+
+.ToolbarWrapper {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 90;
+}
+
+.LeftToolbar, .RightToolbar {
+  height: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.LeftToolbar {
+  @media (max-width: 499px) {
+    width: 100%;
+  }
+}
+
+.ToolbarLogo {
+  height: 95%;
+  padding-right: 20px;
+}
+
+@media (max-width: 499px) {
+  .DesktopOnly {
+    display: none;
+  }
+}

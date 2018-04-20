@@ -1,40 +1,64 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Route, Redirect } from 'react-router-dom';
+import { IntlProvider } from 'react-intl';
+import { connect } from 'react-redux';
 
 import Layout from '../hoc/Layout/Layout';
 import Auth from './Auth/Auth';
 import HomePage from './pages/HomePage';
-import ConfirmationPage from './pages/ConfirmationPage';
-import ForgotPasswordPage from './pages/ForgotPasswordPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
+import Toolbar from './Navigation/Toolbar/Toolbar';
 
 import UserRoute from './routes/UserRoute';
 import GuestRoute from './routes/GuestRoute';
 
-const Root = ({ location }) => (
-    <div>
-        <Layout>
-            <h1>Root page</h1>
-            <Link to="/" >Home</Link>
-            <Link to="/test" >Test</Link>
-            <Link to="/auth" >Auth</Link>
+import { flattenMessages } from '../utils/flattenMessages';
+import messages from '../messages'
+import { setAuthOptions, authOptions } from "../ducks/auth";
 
-            <Route location={location} path="/confirmation/:token" component={ConfirmationPage} />
-            <Route location={location} path="/auth" component={Auth}/>
-            <GuestRoute location={location} path="/forgot_password" component={ForgotPasswordPage}/>
-            <GuestRoute location={location} path="/reset_password/:token" component={ResetPasswordPage}/>
+class Root extends Component {
+    componentDidMount () {
+        console.log('|||||||||||',this.props);
+        const { pathname } = this.props.location;
+        if(pathname.includes('reset_password')) this.props.setAuthOptions(authOptions.openResetPassword);
+        else if(pathname.includes('confirmation')) this.props.setAuthOptions(authOptions.openConfirmation);
+    }
 
-            <UserRoute location={location} path="/test" component={HomePage} />
+    render() {
+        const { location, lang, isAuthenticated, signOut } = this.props;
 
-        </Layout>
-    </div>
-);
+        return (
+            <IntlProvider locale={lang} messages={flattenMessages(messages[lang])}>
+                <div>
+                    <Layout >
+                        <h1>Root page</h1>
+                        <Link to="/" >Home</Link>
+                        <Link to="/test" >Test</Link>
+
+
+                        <Auth />
+                        {/*<Route location={location} component={Auth}/>*/}
+
+                        <UserRoute location={location} path="/test" component={HomePage} />
+
+                    </Layout>
+                </div>
+            </IntlProvider>
+        )
+    }
+}
 
 Root.propTypes = {
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    lang: PropTypes.string.isRequired
 };
 
-export default Root;
+const mapStateToProps = state => {
+    return {
+        lang: state.locale.lang
+    }
+};
+
+export default connect(mapStateToProps, { setAuthOptions })(Root);

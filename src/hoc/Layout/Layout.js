@@ -5,6 +5,8 @@ import Aux from '../Aux_/Aux_';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
+import './Layout.scss';
+
 class Layout extends Component {
     static propTypes = {
 
@@ -18,8 +20,9 @@ class Layout extends Component {
         return (
             <Aux>
                 <Toolbar/>
-                <SideDrawer/>
-                <main>
+
+                {/*<SideDrawer/>*/}
+                <main className="Content">
                     {this.props.children}
                 </main>
             </Aux>

@@ -3,24 +3,35 @@ import { Field, reduxForm } from 'redux-form';
 import isEmail from 'validator/lib/isEmail';
 import {connect} from "react-redux";
 
-import RenderField from '../shared/RenderField';
-import {authErrors} from "../../ducks/auth";
-import { passwordPattern } from '../shared/constants';
+import RenderField from '../../UI/RenderField/RenderField';
+import {authErrors, authOptions, setAuthOptions} from "../../../ducks/auth";
+import { passwordPattern } from '../../../shared/constants';
 import PropTypes from "prop-types";
 
-const SignInForm = ({ handleSubmit, pristine, submitting, error }) => (
-    <div>
-        <h2>SignIn</h2>
+import Button from '../../UI/Button/Button';
+import './SignInForm.scss';
+
+const SignInForm = ({ handleSubmit, pristine, submitting, error, invalid, modalClosed, setAuthOptions }) => (
+    <div className="SignIn">
+        <h2 className="Title">SignIn</h2>
         {error && error.global}
         <form onSubmit={handleSubmit}>
-            <div>
-                <Field name="email" component={RenderField} type="email" label="Email"/>
-                <Field name="password" component={RenderField} type="password" label="Password"/>
-                <button type="submit" disabled={pristine || submitting}>
+            <Field name="email" component={RenderField} type="email" label="Email" iconType="close-envelope"/>
+            <Field name="password" component={RenderField} type="password" label="Password" iconType="lock"/>
+            <div className="FormButtons">
+                <button className="SubmitButton" type="submit" disabled={pristine || submitting || invalid}>
                     Submit
                 </button>
+                <a className="ForgotButton" onClick={() => setAuthOptions(authOptions.openForgotPassword)}>
+                    ForgotPassword?
+                </a>
             </div>
+
         </form>
+
+
+        <div className="Line"/>
+        <button className="SwitchAuth" onClick={() => setAuthOptions(authOptions.openSignUp)}>SignUp</button>
     </div>
 );
 
@@ -59,4 +70,4 @@ const mapStateToProps = state => {
 export default reduxForm({
     form: 'signIn',
     validate
-})(connect(mapStateToProps)(SignInForm));
+})(connect(mapStateToProps, { setAuthOptions })(SignInForm));

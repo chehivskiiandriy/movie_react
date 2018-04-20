@@ -2,9 +2,9 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 
-import RenderField from '../shared/RenderField';
+import RenderField from '../UI/RenderField/RenderField';
 import { authErrors } from "../../ducks/auth";
-import { passwordPattern } from '../shared/constants';
+import { passwordPattern } from '../../shared/constants';
 import PropTypes from "prop-types";
 
 const ResetPasswordForm = ({ handleSubmit, pristine, submitting, error }) => (

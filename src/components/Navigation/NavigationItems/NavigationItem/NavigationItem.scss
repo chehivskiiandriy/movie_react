@@ -1,0 +1,64 @@
+.NavigationItem {
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  //transition: 0.3s ease-out;
+
+  &:hover {
+    background-color: #fff;
+  }
+
+  &:hover > ul{
+    position: absolute;
+    display: block;
+    background-color: #fff;
+    top: 100%;
+
+    a {
+      color: #000;
+    }
+  }
+
+  a {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 5px 20px;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
+
+.WithoutChildren:hover {
+    background-color: transparent;
+}
+
+.Blue, .Green, .Red {
+  &:hover > ul {
+    a {
+      color: #000 !important;
+    }
+  }
+}
+
+.Blue:hover a{
+  color: #30c2f2 !important;
+}
+.Green:hover a{
+  color: #83bf0a !important;
+}
+.Red:hover a{
+  color: #ff3333 !important;
+}
+.DarkBlue:hover a{
+  color: #00c0b5;
+}

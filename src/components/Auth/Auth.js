@@ -2,10 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route, Link } from 'react-router-dom';
+import { CSSTransitionGroup } from 'react-transition-group'
 
-import SignInForm from './SignInForm';
-import SignUpForm from './SignUpForm';
-import { moduleName, signIn, signUp, signOut } from '../../ducks/auth';
+import SignInForm from './SignInForm/SignInForm';
+import SignUpForm from './SignUpForm/SignUpForm';
+import { moduleName as authReducer, signIn, signUp, signOut, resetAuthOptions } from '../../ducks/auth';
+import ConfirmationPage from "../pages/ConfirmationPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import GuestRoute from '../routes/GuestRoute';
+import Modal from '../UI/Modal/Modal';
+
+import './Auth.scss';
 
 class Auth extends Component {
     static propTypes = {
@@ -19,35 +27,60 @@ class Auth extends Component {
 
     handleSignUp = value => this.props.signUp(value);
 
+    handleCloseModal = () => {
+        this.props.resetAuthOptions();
+    };
+
     render () {
         console.log(this.props);
-
-        let auth = (
-            <div>
-                <Link to="/auth/signup" >Sign Up</Link>
-                <Link to="/auth/signin" >Sign In</Link>
-
-                <Link to="/forgot_password">Forgot Password?</Link>
-
-                <Route path="/auth/signup" render={() => <SignUpForm onSubmit = {this.handleSignUp} />} />
-                <Route path="/auth/signin" render={() => <SignInForm onSubmit = {this.handleSignIn} />} />
-            </div>
-        );
-
-        if(this.props.isAuthenticated) auth = <button onClick={() => this.props.signOut()}>Sign Out</button>;
+        const { isAuthenticated, authSettings,  signOut, location } = this.props;
 
         return (
-            <div>
-                {auth}
-            </div>
+            <CSSTransitionGroup transitionName='ModalWindow' transitionEnterTimeout={400} transitionLeaveTimeout={250}>
+                {
+                    authSettings.openSignUp &&
+                    <Modal modalClosed={this.handleCloseModal}>
+                        <SignUpForm onSubmit={this.handleSignUp} modalClosed={this.handleCloseModal}/>
+                    </Modal>
+                    // <Route render={() => <SignUpForm onSubmit={this.handleSignUp}/>}/>
+                }
+                {
+                    authSettings.openSignIn &&
+                    <Modal modalClosed={this.handleCloseModal}>
+                        <SignInForm onSubmit={this.handleSignIn} modalClosed={this.handleCloseModal}/>
+                    </Modal>
+                    // <Route render={() => <SignInForm onSubmit={this.handleSignIn}/>}/>
+                }
+                {
+                    authSettings.openConfirmation &&
+                    <Modal modalClosed={this.handleCloseModal}>
+                        <Route location={location} path="/confirmation/:token" component={ConfirmationPage} />
+                    </Modal>
+                }
+                {
+                    authSettings.openForgotPassword &&
+                    <Modal modalClosed={this.handleCloseModal}>
+                        <ForgotPasswordPage />
+
+                        {/*<GuestRoute location={location} path="/forgot_password" component={ForgotPasswordPage}/>*/}
+                    </Modal>
+                }
+                {
+                    authSettings.openResetPassword &&
+                    <Modal modalClosed={this.handleCloseModal}>
+                        <GuestRoute location={location} path="/reset_password/:token" component={ResetPasswordPage}/>
+                    </Modal>
+                }
+            </CSSTransitionGroup>
         );
     }
 }
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: !!state[moduleName].user
+        isAuthenticated: !!state[authReducer].user,
+        authSettings: state[authReducer].authSettings
     }
 };
 
-export default connect(mapStateToProps, { signIn, signUp, signOut })(Auth);
+export default connect(mapStateToProps, { signIn, signUp, signOut, resetAuthOptions })(Auth);

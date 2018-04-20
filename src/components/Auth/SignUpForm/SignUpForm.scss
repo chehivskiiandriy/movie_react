@@ -1,0 +1,96 @@
+.SignUp {
+  position: relative;
+
+  .CloseModal {
+    //display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    //top: -5%;
+    //left: 105%;
+    padding: 0;
+    //transform: translateY(-50%);
+    height: 50px;
+    width: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    .icon-close:before {
+      content: 'c';
+      color: #686867;
+      font-size: 1.2rem;
+    }
+
+  }
+
+  .Title {
+    text-align: center;
+    margin: 0;
+    padding: 15px 0 0 0;
+  }
+
+  .Line {
+    height: 1px;
+    margin-bottom: 15px;
+    background: linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 53%, 0.75) 50%, hsla(0, 0%, 0%, 0) 100%)
+  }
+
+  .SubmitButtons {
+    text-align: center;
+    padding-bottom: 15px;
+
+    button {
+      background: #26a69a;
+      border: none;
+      outline: none;
+      border-radius: 2px;
+      padding: 8px 16px;
+      color: #fff;
+      text-transform: uppercase;
+      margin: 0 15px;
+      cursor: pointer;
+      transition: 0.5s ease;
+
+      &:first-child {
+        margin-left: 0;
+
+        &:hover:not(:disabled) {
+          background: #007066;
+        }
+      }
+
+      &:last-child {
+        margin-right: 0;
+        background: #ff9580;
+
+        &:hover:not(:disabled) {
+          background: #ff3333;
+        }
+      }
+
+      &:disabled {
+        background: #ccc;
+      }
+    }
+  }
+
+  .SwitchAuth {
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
+    margin: 0 auto;
+    border: 2px solid #ccc;
+    border-radius: 2px;
+    padding: 8px 16px;
+    outline: none;
+    transition: 0.3s ease;
+
+    &:hover {
+      border: 2px solid #26a69a;
+      color: #007066;
+    }
+  }
+}

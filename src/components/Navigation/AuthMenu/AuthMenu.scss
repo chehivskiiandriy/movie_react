@@ -1,0 +1,16 @@
+.AuthMenu {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.AuthMenu span{
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 15px;
+}
+
+.AuthMenu:hover span{
+  color: #ff860d;
+}

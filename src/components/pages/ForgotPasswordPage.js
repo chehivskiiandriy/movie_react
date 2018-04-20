@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { confirmEmail } from '../../ducks/auth';
-import ForgotPasswordForm from '../Auth/ForgotPasswordForm';
+import ForgotPasswordForm from '../Auth/ForgotPasswordForm/ForgotPasswordForm';
 
 class ForgotPasswordPage extends Component {
     static propTypes = {

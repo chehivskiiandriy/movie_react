@@ -1,0 +1,21 @@
+.Button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  //margin: 10px;
+  transition: 0.3s;
+
+  &:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    color: #ff860d;
+  }
+}
