@@ -128,7 +128,29 @@
   .Error {
     position: absolute;
     top: 0;
-    left: 130%;
+    left: 105%;
+    background: rgba(85, 85, 85, 0.91);
+    border-radius: 5px;
+    padding: 5px 15px;
+    min-height: 30px;
+    box-sizing: border-box;
+    min-width: 120px;
+    color: #fff;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    white-space: pre;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 100%;
+      margin-top: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent #555  transparent transparent;
+    }
   }
 
   .Eye {

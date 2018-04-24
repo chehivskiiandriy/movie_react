@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import { authOptions, moduleName as authReducer, setAuthOptions, signOut } from "../../../ducks/auth";
 import Button from '../../UI/Button/Button';
@@ -17,19 +18,25 @@ const signUpButtonStyle = {
     paddingLeft: '5px'
 };
 
-const AuthMenu = ({ setAuthOptions, isAuthenticated, signOut }) => {
+const AuthMenu = ({ setAuthOptions, isAuthenticated, signOut, lang }) => {
     return (
         <div className="AuthMenu">
             {isAuthenticated
-                ? <Button clicked={() => signOut()}>Sign Out</Button>
+                ? <Button clicked={() => signOut()}>
+                    <FormattedMessage id="auth.signOut"/>
+                </Button>
                 : <Aux>
                     <Button
                         buttonStyle={signInButtonStyle}
-                        clicked={() => setAuthOptions(authOptions.openSignIn)}>SignIn</Button>
-                    {/*<span>or</span>*/}
+                        clicked={() => setAuthOptions(authOptions.openSignIn)}>
+                        <FormattedMessage id="auth.signIn"/>
+                    </Button>
+                    {/*<span>|</span>*/}
                     <Button
                         buttonStyle={signUpButtonStyle}
-                        clicked={() => setAuthOptions(authOptions.openSignUp)}>SignUp</Button>
+                        clicked={() => setAuthOptions(authOptions.openSignUp)}>
+                        <FormattedMessage id="auth.signUp"/>
+                    </Button>
                 </Aux>
             }
         </div>
@@ -38,7 +45,8 @@ const AuthMenu = ({ setAuthOptions, isAuthenticated, signOut }) => {
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: !!state[authReducer].user,
+        isAuthenticated: !!state[authReducer].user.token,
+        locale: state.locale.lang
     }
 };
 

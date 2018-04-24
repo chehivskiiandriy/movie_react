@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { injectIntl } from 'react-intl';
 
 import './RenderField.scss';
 
@@ -25,14 +26,14 @@ class RenderField extends Component {
     };
 
     render () {
-        const { input, type, label, meta: { error, warning, touched, invalid }, iconType } = this.props;
+        const { input, type, label, meta: { error, warning, touched, invalid }, iconType, intl } = this.props;
         const { showPassword } = this.state;
 
         const errorText = touched &&
             ((error && <span className="Error">{error}</span>) || (warning && <span>{warning}</span>));
         let inputType = type;
 
-        if(type === 'password' && showPassword ) {
+        if(type === 'password' && showPassword) {
             inputType = 'text';
         }
 
@@ -42,7 +43,8 @@ class RenderField extends Component {
                     {...input}
                     type={inputType}
                     id={input.name}
-                    placeholder={label}
+                    // placeholder={label}
+                    placeholder={intl.formatMessage({ id: `form.field.${input.name}` })}
                     className={classNames('RenderInput', { invalid, touched, isEmpty: input.value === ''})}/>
                 <label htmlFor={input.name}><span className={`icon icon-${iconType}`}/></label>
                 {type === 'password' &&
@@ -56,4 +58,4 @@ class RenderField extends Component {
     }
 }
 
-export default RenderField;
+export default injectIntl(RenderField);

@@ -1,0 +1,79 @@
+.FadeSlider {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover {
+    .LeftArrow, .RightArrow {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .SlidesWrapper {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    overflow: hidden;
+  }
+
+  .Dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .LeftArrow, .RightArrow {
+    height: 80px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 3px;
+
+      .icon:before {
+        color: #ffffff;
+      }
+    }
+
+    .icon:before {
+      color: #cccccc;
+      transition: 0.3s;
+      font-size: 36px;
+    }
+  }
+
+  .LeftArrow {
+    left: 50px;
+
+    .icon-back:before {
+      content: 'k';
+    }
+  }
+
+  .RightArrow {
+    right: 50px;
+
+    .icon-next:before {
+      content: 'n';
+    }
+  }
+}
+

@@ -1,0 +1,18 @@
+.TranslateSlide {
+  width: 20%;
+  height: auto;
+  //height: 320px;
+  display: inline-block;
+  transition: 0.3s;
+
+  img {
+    width: 100%;
+  }
+
+  span {
+    //position: absolute;
+    //top: 50%;
+    //left: 20%;
+    //z-index: 1;
+  }
+}

@@ -1,0 +1,20 @@
+.AlertMessage-enter {
+  transform: translate(-50%, -100vh);
+}
+
+.AlertMessage-enter.AlertMessage-enter-active {
+  transition: .7s;
+  transform: translate(-50%,0);
+}
+
+.AlertMessage-leave {
+  opacity: 1;
+  transform: translate(-50%,0);
+}
+
+.AlertMessage-leave.AlertMessage-leave-active {
+  transition: .4s;
+  opacity: 0;
+  transform: translate(-50%,0);
+}
+

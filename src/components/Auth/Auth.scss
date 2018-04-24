@@ -17,7 +17,6 @@
 
 }
 
-
 .ModalWindow-leave {
   opacity: 1;
 }
@@ -34,5 +33,76 @@
 
 .ModalWindow-leave.ModalWindow-leave-active .Modal {
   transform: scale(0);
+}
 
+.Title {
+  position: relative;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.Line {
+  height: 1px;
+  margin-bottom: 15px;
+  background: linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 53%, 0.75) 50%, hsla(0, 0%, 0%, 0) 100%)
+}
+
+.GlobalError {
+  padding: 10px 20px;
+  margin: 10px 0 20px 0;
+  border-radius: 5px;
+  color: #ff9580;
+  border: 1px solid #ff9580;
+  box-sizing: border-box;
+}
+
+.SubmitButton {
+  background: #26a69a;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  padding: 8px 16px;
+  color: #fff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.5s ease;
+
+  &:hover:not(:disabled) {
+    background: #007066;
+  }
+
+  &:disabled {
+    background: #ccc;
+  }
+}
+
+.SwitchAuth {
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-self: center;
+  margin: 0 auto;
+  border: 2px solid #ccc;
+  border-radius: 2px;
+  padding: 8px 16px;
+  outline: none;
+  transition: 0.3s ease;
+
+  &:hover {
+    border: 2px solid #26a69a;
+    color: #007066;
+  }
+}
+
+.Confirmation {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(243, 243, 243, 0.5);
 }

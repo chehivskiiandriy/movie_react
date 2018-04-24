@@ -2,10 +2,11 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import isEmail from 'validator/lib/isEmail';
 import { connect } from 'react-redux';
-
-import RenderField from '../../UI/RenderField/RenderField';
-import {authErrors, authOptions, setAuthOptions} from "../../../ducks/auth";
 import PropTypes from "prop-types";
+import { FormattedMessage } from 'react-intl';
+
+import RenderField from '../../../UI/RenderField/RenderField';
+import {authErrors, authOptions, setAuthOptions} from "../../../../ducks/auth";
 
 import './ForgotPasswordForm.scss';
 
@@ -15,14 +16,16 @@ const ForgotPasswordForm = ({ handleSubmit, pristine, submitting, error, invalid
             <a className="GoBack" title="Go back" onClick={() => setAuthOptions(authOptions.openSignIn)}>
                 <span className="icon icon-go-back" />
             </a>
-            <h2>Forgot Password?</h2>
+            <h2>
+                <FormattedMessage id="auth.forgotPassword"/>
+            </h2>
         </div>
-        {error && error.global}
+        {error && <div className="GlobalError">{error.global}</div>}
         <form onSubmit={handleSubmit}>
             <div>
                 <Field name="email" component={RenderField} type="email" label="Email" iconType="close-envelope"/>
                 <button className="SubmitButton" type="submit" disabled={pristine || submitting || invalid}>
-                    Submit
+                    <FormattedMessage id="form.submit"/>
                 </button>
             </div>
         </form>

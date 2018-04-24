@@ -1,0 +1,21 @@
+.ConfirmedMessage {
+  background: #ff9580;
+  color: #14171a;
+  height: 60px;
+  width: 100%;
+
+  .container {
+    height: inherit;
+    display: flex;
+    align-items: center;
+
+    button {
+      border: 1px solid #e6ecf0;
+      border-radius: 4px;
+      background: linear-gradient(#fff,#f5f8fa);
+      padding: 5px 10px;
+      margin-left: 50px;
+      cursor: pointer;
+    }
+  }
+}

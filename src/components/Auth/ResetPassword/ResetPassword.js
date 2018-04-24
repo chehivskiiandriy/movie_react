@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { validateToken, resetPassword } from '../../ducks/auth';
-import ResetPasswordForm from '../Auth/ResetPasswordForm';
-import Spinner from '../UI/Spinner/Spinner';
+import { validateToken, resetPassword, resetAuthOptions } from '../../../ducks/auth';
+import { setAlertMessage } from "../../../ducks/alert";
+import ResetPasswordForm from './ResetPasswordForm/ResetPasswordForm';
+import Spinner from '../../UI/Spinner/Spinner';
 
-class ResetPasswordPage extends Component {
+class ResetPassword extends Component {
     static propTypes = {
         validateToken: PropTypes.func.isRequired,
         resetPassword: PropTypes.func.isRequired,
@@ -38,20 +39,25 @@ class ResetPasswordPage extends Component {
 
     onSuccess = () => this.setState({ loading: false, success: true });
 
-    onFail = () => this.setState({ loading: false, success: false});
+    onFail = () => {
+        this.setState({ loading: false, success: false});
+        this.props.resetAuthOptions();
+        this.props.setAlertMessage({
+            typeMessage: "Fail",
+            message: "validateTokenFail"
+        });
+    };
 
     render() {
         const { loading, success } = this.state;
-        // const { token } = this.props.match.params.token;
 
         return (
             <div>
                 {loading && <Spinner />}
                 {!loading && success && <ResetPasswordForm onSubmit={this.handleSubmit} />}
-                {!loading && !success && <p>Invalid Token</p>}
             </div>
         );
     }
 }
 
-export default connect(null, { validateToken, resetPassword })(ResetPasswordPage);
+export default connect(null, { validateToken, resetPassword, setAlertMessage, resetAuthOptions })(ResetPassword);

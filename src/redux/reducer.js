@@ -4,9 +4,11 @@ import {reducer as form} from 'redux-form'
 
 import authReducer, { moduleName as authModule } from "../ducks/auth";
 import localeReducer, { moduleName as localeModule } from "../ducks/locale";
+import alertReducer, { moduleName as alertModule } from "../ducks/alert";
 
 export default combineReducers({
     router, form,
     [authModule]: authReducer,
-    [localeModule]: localeReducer
+    [localeModule]: localeReducer,
+    [alertModule]: alertReducer
 })

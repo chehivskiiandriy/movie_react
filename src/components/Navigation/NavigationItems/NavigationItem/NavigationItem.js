@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import './NavigationItem.scss';
 
 const NavigationItem = ({ children, link, name, exact, color }) => {
-    console.log('-----', children);
     let classes = '';
     if(!children) classes = 'WithoutChildren';
     if(color) classes += ' ' + color;

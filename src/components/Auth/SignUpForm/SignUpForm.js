@@ -3,27 +3,28 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import isEmail from "validator/lib/isEmail";
+import { FormattedMessage } from 'react-intl';
 
 import RenderField from "../../UI/RenderField/RenderField";
 import {authErrors} from "../../../ducks/auth";
 import { passwordPattern } from '../../../shared/constants';
 import Spinner from '../../UI/Spinner/Spinner';
 
-import Button from '../../UI/Button/Button';
 import { authOptions, setAuthOptions} from "../../../ducks/auth";
 
 import './SignUpForm.scss';
 
-const SignUpForm = ({ handleSubmit, pristine, submitting, reset, invalid,  loading, error, setAuthOptions, modalClosed }) => {
+const SignUpForm = ({ handleSubmit, pristine, submitting, reset, invalid,  loading, error, setAuthOptions }) => {
 
     return(
         <div className="SignUp">
-            {/*<button className="CloseModal" onClick={modalClosed} >*/}
-                {/*<span className="icon icon-close" />*/}
-            {/*</button>*/}
-            <h2 className="Title">Sign Up</h2>
+            <h2 className="Title">
+                <FormattedMessage id="auth.signUp"/>
+            </h2>
 
-            {error && error.global}
+            {error && <div className="GlobalError">
+                <FormattedMessage id={`error.global.${error.global}`}/>
+                </div>}
             <form onSubmit={handleSubmit}>
                 <Field name="username" component={RenderField} type="input" label="Username" iconType="user"/>
                 <Field name="email" component={RenderField} type="email" label="Email" iconType="close-envelope"/>
@@ -31,16 +32,21 @@ const SignUpForm = ({ handleSubmit, pristine, submitting, reset, invalid,  loadi
                 <Field name="confirmPassword" component={RenderField} type="password" label="Confirm password" iconType="lock"/>
                 <div className="SubmitButtons">
                     <button type="submit" disabled={pristine || submitting || invalid}>
-                        {loading ? <Spinner /> : 'Submit'}
+                        {loading
+                            ? <Spinner />
+                            : <FormattedMessage id="auth.signUp"/>
+                        }
                     </button>
                     <button type="submit" disabled={pristine || submitting} onClick={reset}>
-                        Clear
+                        <FormattedMessage id="form.clear"/>
                     </button>
                 </div>
             </form>
 
             <div className="Line"/>
-            <button className="SwitchAuth" onClick={() => setAuthOptions(authOptions.openSignIn)}>SignIn</button>
+            <button className="SwitchAuth" onClick={() => setAuthOptions(authOptions.openSignIn)}>
+                <FormattedMessage id="auth.signIn"/>
+            </button>
         </div>
     );
 };
@@ -68,8 +74,8 @@ const validate = ({email, password, confirmPassword, username }) => {
     else if (!isEmail(email)) errors.email = 'Invalid email address';
 
     if(!password) errors.password = 'Password is required';
-    else if(!passwordPattern.test(password)) errors.password = 'Password must be at least 6 characters long and ' +
-        'include 1 uppercase letter, 1 lowercase letter, 1 number';
+    else if(!passwordPattern.test(password)) errors.password = 'Password must be at least 6 \ncharacters long and ' +
+        'include 1 uppercase\nletter, 1 lowercase letter, 1 number';
 
     if(!confirmPassword) errors.confirmPassword = 'Confirm password is required';
     else if(confirmPassword !== password) errors.confirmPassword = 'Passwords doesn\'t match';
@@ -79,7 +85,7 @@ const validate = ({email, password, confirmPassword, username }) => {
 
 const mapStateToProps = state => {
     return {
-        // loading: state.auth.loading,
+        loading: state.auth.loading,
         error: state.auth.error && (state.auth.error.type === authErrors.signUpError) ? state.auth.error : null
     }
 };

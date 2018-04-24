@@ -1,40 +1,8 @@
 .SignUp {
   position: relative;
 
-  .CloseModal {
-    //display: none;
-    position: absolute;
-    right: 0;
-    top: 0;
-    //top: -5%;
-    //left: 105%;
-    padding: 0;
-    //transform: translateY(-50%);
-    height: 50px;
-    width: 50px;
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-
-    .icon-close:before {
-      content: 'c';
-      color: #686867;
-      font-size: 1.2rem;
-    }
-
-  }
-
   .Title {
-    text-align: center;
-    margin: 0;
-    padding: 15px 0 0 0;
-  }
-
-  .Line {
-    height: 1px;
-    margin-bottom: 15px;
-    background: linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 53%, 0.75) 50%, hsla(0, 0%, 0%, 0) 100%)
+    padding-top: 15px;
   }
 
   .SubmitButtons {
@@ -52,6 +20,8 @@
       margin: 0 15px;
       cursor: pointer;
       transition: 0.5s ease;
+
+      height: 31px;
 
       &:first-child {
         margin-left: 0;
@@ -76,21 +46,5 @@
     }
   }
 
-  .SwitchAuth {
-    background: transparent;
-    cursor: pointer;
-    display: flex;
-    align-self: center;
-    margin: 0 auto;
-    border: 2px solid #ccc;
-    border-radius: 2px;
-    padding: 8px 16px;
-    outline: none;
-    transition: 0.3s ease;
 
-    &:hover {
-      border: 2px solid #26a69a;
-      color: #007066;
-    }
-  }
 }

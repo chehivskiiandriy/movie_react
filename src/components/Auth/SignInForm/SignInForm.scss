@@ -2,15 +2,7 @@
   position: relative;
 
   .Title {
-    text-align: center;
-    margin: 0;
-    padding: 15px 0 0 0;
-  }
-
-  .Line {
-    height: 1px;
-    margin-bottom: 15px;
-    background: linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 53%, 0.75) 50%, hsla(0, 0%, 0%, 0) 100%)
+    padding-top: 15px;
   }
 
   .FormButtons {
@@ -18,26 +10,6 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-  }
-
-  .SubmitButton {
-    background: #26a69a;
-    border: none;
-    outline: none;
-    border-radius: 2px;
-    padding: 8px 16px;
-    color: #fff;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: 0.5s ease;
-
-    &:hover:not(:disabled) {
-      background: #007066;
-    }
-
-    &:disabled {
-      background: #ccc;
-    }
   }
 
   .ForgotButton {
@@ -48,24 +20,6 @@
 
     &:hover {
       color: #26a69a;
-    }
-  }
-
-  .SwitchAuth {
-    background: transparent;
-    cursor: pointer;
-    display: flex;
-    align-self: center;
-    margin: 0 auto;
-    border: 2px solid #ccc;
-    border-radius: 2px;
-    padding: 8px 16px;
-    outline: none;
-    transition: 0.3s ease;
-
-    &:hover {
-      border: 2px solid #26a69a;
-      color: #007066;
     }
   }
 }

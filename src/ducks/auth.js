@@ -3,6 +3,7 @@ import { delay } from 'redux-saga';
 import { push } from 'react-router-redux'
 
 import api from '../api';
+import { setAlertMessage } from './alert';
 
 /**
  * Constants
@@ -38,6 +39,10 @@ export const VALIDATE_TOKEN_REQUEST = `${moduleName}/VALIDATE_TOKEN_REQUEST`;
 export const SET_AUTH_OPTIONS = `${moduleName}/SET_AUTH_OPTIONS`;
 export const RESET_AUTH_OPTIONS = `${moduleName}/RESET_AUTH_OPTIONS`;
 
+export const RESEND_CONFIRMATION_MESSAGE_REQUEST = `${moduleName}/RESEND_CONFIRMATION_MESSAGE_REQUEST`;
+export const RESEND_CONFIRMATION_MESSAGE_SUCCESS = `${moduleName}/RESEND_CONFIRMATION_MESSAGE_SUCCESS`;
+export const RESEND_CONFIRMATION_MESSAGE_ERROR = `${moduleName}/RESEND_CONFIRMATION_MESSAGE_ERROR`;
+
 export const LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
 
 export const authErrors = {
@@ -66,8 +71,15 @@ export const InitialAuthOptions = {
     openResetPassword: false
 };
 
+export const InitialUser = {
+    username: null,
+    email: null,
+    confirmed: null,
+    token: null
+};
+
 export const InitialStateRecord = {
-    user: null,
+    user: InitialUser,
     error: null,
     loading: false,
     authSettings: InitialAuthOptions
@@ -81,6 +93,7 @@ export default function reducer(state = InitialStateRecord, action = {}) {
         case SIGN_IN_REQUEST:
         case CONFIRM_EMAIL_REQUEST:
         case RESET_PASSWORD_REQUEST:
+        case RESEND_CONFIRMATION_MESSAGE_REQUEST:
             return {
                 ...state,
                 loading: true
@@ -99,6 +112,8 @@ export default function reducer(state = InitialStateRecord, action = {}) {
 
         case CONFIRM_EMAIL_SUCCESS:
         case RESET_PASSWORD_SUCCESS:
+        case RESEND_CONFIRMATION_MESSAGE_SUCCESS:
+        case RESEND_CONFIRMATION_MESSAGE_ERROR:
             return {
                 ...state,
                 loading: false
@@ -126,6 +141,7 @@ export default function reducer(state = InitialStateRecord, action = {}) {
         case SET_AUTH_OPTIONS:
             return {
                 ...state,
+                error: null,
                 authSettings: {
                     ...InitialAuthOptions,
                     [payload.data]: true
@@ -135,6 +151,7 @@ export default function reducer(state = InitialStateRecord, action = {}) {
         case RESET_AUTH_OPTIONS:
             return {
             ...state,
+            error: null,
             authSettings: {
                 ...InitialAuthOptions,
             }
@@ -277,6 +294,15 @@ export function resetAuthOptions() {
     }
 }
 
+export function resendConfirmationMessage(email, onSuccess, onFail) {
+    return {
+        type: RESEND_CONFIRMATION_MESSAGE_REQUEST,
+        payload: email,
+        onSuccess,
+        onFail
+    }
+}
+
 /**
  * Functions
  * */
@@ -350,13 +376,14 @@ export const confirmSaga = function * (action) {
     const { payload, onSuccess, onFail } = action;
     try {
         const user = yield call(api.user.confirm, payload);
-        yield delay(4000);
 
         yield call(setUserToken, user.token);
 
         yield call(onSuccess);
 
         yield put(confirmSuccess(user));
+
+        yield put(push('/'));
     } catch (_) {
         yield call(onFail);
     }
@@ -397,6 +424,11 @@ export const resetPasswordSaga = function * (action) {
 
         yield put({ type: RESET_PASSWORD_SUCCESS});
 
+        yield put(setAlertMessage({
+            typeMessage: "Success",
+            message: "resetPasswordSuccess"
+        }));
+
         yield put(setAuthOptions(authOptions.openSignIn));
 
     } catch (error) {
@@ -404,6 +436,21 @@ export const resetPasswordSaga = function * (action) {
         err.type = authErrors.resetPasswordError;
 
         yield put(resetPasswordError(err))
+    }
+};
+
+export const resendConfirmationMessageSaga = function * (action) {
+    const { payload, onSuccess, onFail } = action;
+    try {
+        yield call(api.user.resendConfirmationMessage, payload);
+
+        yield put({ type: RESEND_CONFIRMATION_MESSAGE_SUCCESS});
+
+        yield call(onSuccess);
+    } catch (error) {
+        yield put({ type: RESEND_CONFIRMATION_MESSAGE_ERROR});
+
+        yield call(onFail);
     }
 };
 
@@ -415,6 +462,7 @@ export const saga = function * () {
         takeEvery(SIGN_OUT_REQUEST, signOutSaga),
         takeLatest(CONFIRM_EMAIL_REQUEST, confirmEmailSaga),
         takeLatest(VALIDATE_TOKEN_REQUEST, validateTokenSaga),
-        takeLatest(RESET_PASSWORD_REQUEST, resetPasswordSaga)
+        takeLatest(RESET_PASSWORD_REQUEST, resetPasswordSaga),
+        takeEvery(RESEND_CONFIRMATION_MESSAGE_REQUEST ,resendConfirmationMessageSaga)
     ])
 };

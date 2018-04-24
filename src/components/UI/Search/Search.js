@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import './Search.scss';
 import mov from '../../../assets/images/mov.jpg';
@@ -98,7 +99,9 @@ class Search extends Component {
                     ref={this.searchRef}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}/>
-                <div className="SearchPlaceholder">Search</div>
+                <div className="SearchPlaceholder">
+                    <FormattedMessage id="search" />
+                </div>
                 <div className="SearchIcon" onMouseDown={this.iconHandler}>
                     <span className="icon icon-search"/>
                 </div>

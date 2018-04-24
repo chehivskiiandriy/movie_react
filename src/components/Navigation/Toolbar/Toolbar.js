@@ -6,11 +6,13 @@ import Logo from '../../UI/Logo/Logo';
 import Search from '../../UI/Search/Search';
 import LocaleMenu from '../LocaleMenu/LocaleMenu';
 import AuthMenu from '../AuthMenu/AuthMenu';
+import ConfirmedMessage from './ConfirmedMessage/ConfirmedMessage';
 
 import './Toolbar.scss';
 
 const Toolbar = ({ drawerToggleClicked }) => (
     <header className="Toolbar">
+        <ConfirmedMessage />
         <div className="ToolbarWrapper container">
             <div className="LeftToolbar">
                 <div className="ToolbarLogo">

@@ -1,0 +1,68 @@
+.TranslateSlider {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 100px auto;
+
+  .Wrapper {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .SlidesWrapper {
+    //position: relative;
+    //top: 0;
+    //left: 0;
+    //display: block;
+
+    width: 100%;
+    height: auto;
+    //overflow: hidden;
+    white-space: nowrap;
+    transition: 0.5s ease-out;
+  }
+
+  .LeftArrow, .RightArrow {
+    height: 80px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 3px;
+
+      .icon:before {
+        color: #fff;
+      }
+    }
+
+    .icon:before {
+      color: #343434;
+      transition: 0.3s;
+      font-size: 36px;
+    }
+  }
+
+  .LeftArrow {
+    left: -100px;
+
+    .icon-back:before {
+      content: 'k';
+    }
+  }
+
+  .RightArrow {
+    right: -100px;
+
+    .icon-next:before {
+      content: 'n';
+    }
+  }
+}

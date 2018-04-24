@@ -1,5 +1,5 @@
 .DrawerToggle {
-  width: 40px;
+  width: 30px;
   height: 80%;
   display: flex;
   flex-flow: column;
@@ -9,13 +9,37 @@
   box-sizing: border-box;
   cursor: pointer;
 
+  &.active {
+    transform: rotate(45deg);
+    transition: all 0.3s ease-in-out;
+    transition-delay: 0.6s;
+  }
+
+  &.active div:nth-child(2) {
+    width: 0;
+  }
+
+  &.active div:nth-child(1),
+  &.active div:nth-child(3) {
+    transition-delay: 0.3s;
+  }
+
+  &.active div:nth-child(1) {
+    transform: translateY(7px);
+  }
+
+  &.active div:nth-child(3) {
+    transform: translateY(-7px) rotate(90deg);
+  }
+
   @media (min-width: 500px) {
     display: none;
   }
 
   div {
     width: 90%;
-    height: 3px;
+    height: 2px;
     background-color: white;
+    transition: all 0.3s ease-in-out;
   }
 }

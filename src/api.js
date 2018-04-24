@@ -13,6 +13,8 @@ export default {
         validateToken: token =>
             axios.post("/api/auth/validate_token", { token }),
         resetPassword: data =>
-            axios.post("/api/auth/reset_password", { data })
+            axios.post("/api/auth/reset_password", { data }),
+        resendConfirmationMessage: email =>
+            axios.post("api/users/send_email", { email })
     }
 }

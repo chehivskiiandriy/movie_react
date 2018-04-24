@@ -23,7 +23,7 @@ class Test extends Component {
 const mapStateToProps = (state, ownProps) => {
     console.log(ownProps);
     return {
-        isAuthenticated: !!state[moduleName].user
+        isAuthenticated: !!state[moduleName].user.token
     }
 };
 

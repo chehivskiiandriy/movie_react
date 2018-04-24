@@ -25,7 +25,7 @@ class HomePage extends Component {
 
 const mapStateToProps = state => {
     return {
-        // isAuthenticated: !!state[moduleName].user,
+        isAuthenticated: !!state[moduleName].user.token,
         isConfirmed: !!state[moduleName].user.confirmed
     }
 };
